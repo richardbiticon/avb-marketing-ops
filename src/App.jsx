@@ -156,16 +156,16 @@ function DItem({ item, onC, onN }) {
     <div style={{ background: item.checked ? "#f0f7f3" : C.paper, border: `1px solid ${item.checked ? "#b8e0c8" : C.borderP}`, marginBottom: 8, borderRadius: 6, overflow: "hidden" }}>
       <div onClick={() => setEx(!ex)} style={{ padding: "12px 16px", cursor: "pointer", display: "flex", alignItems: "flex-start", gap: 12, userSelect: "none" }}>
         <Chk c={item.checked} on={onC} />
-        <div style={{ flex: 1, fontSize: 13.5, color: item.checked ? C.green : "#3a352e", lineHeight: 1.55 }}>
+        <div style={{ flex: 1, fontSize: 17, color: item.checked ? C.green : "#3a352e", lineHeight: 1.55 }}>
           {item.hl ? <span style={{ background: "linear-gradient(180deg,transparent 40%,#b8f0c8 40%,#b8f0c8 88%,transparent 88%)", padding: "0 2px" }}>{item.text}</span> : item.text}
         </div>
         <ChevronDown size={12} color="#aaa" style={{ transform: ex ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s", marginTop: 4, flexShrink: 0 }} />
       </div>
       {ex && (
         <div onClick={(e) => e.stopPropagation()} style={{ padding: "0 16px 14px 46px" }}>
-          <div style={{ fontSize: 11, color: "#aaa", fontStyle: "italic", marginBottom: 6 }}>Notes added after the call</div>
+          <div style={{ fontSize: 14, color: "#aaa", fontStyle: "italic", marginBottom: 6 }}>Notes added after the call</div>
           <textarea value={item.notes} onChange={(e) => onN(e.target.value)} onClick={(e) => e.stopPropagation()}
-            placeholder="Type notes..." style={{ width: "100%", minHeight: 44, padding: "10px 12px", border: `1px dashed ${C.borderP}`, background: "white", fontFamily: F.b, fontSize: 12.5, color: C.ink, resize: "vertical", borderRadius: 4 }} />
+            placeholder="Type notes..." style={{ width: "100%", minHeight: 44, padding: "10px 12px", border: `1px dashed ${C.borderP}`, background: "white", fontFamily: F.b, fontSize: 16, color: C.ink, resize: "vertical", borderRadius: 4 }} />
         </div>
       )}
     </div>
@@ -191,15 +191,15 @@ function IDSCard({ card, onU, ix }) {
     <div style={{ background: "white", border: `1px solid ${card.checked ? "#b8e0c8" : C.borderP}`, marginBottom: 14, borderRadius: 8, overflow: "hidden", boxShadow: op ? "0 4px 20px rgba(0,0,0,0.08)" : "none" }}>
       <div onClick={() => setOp(!op)} style={{ padding: "16px 20px", cursor: "pointer", display: "flex", alignItems: "center", gap: 14, userSelect: "none" }}>
         <Chk c={card.checked} on={(v) => onU({ ...card, checked: v })} s={22} />
-        <div style={{ fontFamily: F.d, fontSize: 20, color: card.checked ? C.green : C.red, width: 28, flexShrink: 0 }}>{ix + 1}</div>
+        <div style={{ fontFamily: F.d, fontSize: 26, color: card.checked ? C.green : C.red, width: 32, flexShrink: 0 }}>{ix + 1}</div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: F.d, fontSize: 14, color: card.checked ? C.green : C.ink }}>{card.title}</div>
+          <div style={{ fontFamily: F.d, fontSize: 18, color: card.checked ? C.green : C.ink }}>{card.title}</div>
           {!op && (
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
               <div style={{ flex: 1, maxWidth: 120, height: 3, background: C.paperDk, borderRadius: 2, overflow: "hidden" }}>
                 <div style={{ width: `${pct}%`, height: "100%", background: pct === 100 ? C.green : C.red, transition: "width 0.3s" }} />
               </div>
-              <span style={{ fontFamily: F.m, fontSize: 9, color: "#aaa" }}>{cc}/{tc}</span>
+              <span style={{ fontFamily: F.m, fontSize: 13, color: "#aaa" }}>{cc}/{tc}</span>
             </div>
           )}
         </div>
@@ -211,12 +211,12 @@ function IDSCard({ card, onU, ix }) {
           <div style={{ display: "flex", borderBottom: `2px solid ${C.paperDk}`, background: "#faf6f0" }}>
             {["Identify", "Discuss", "Solve"].map((t, i) => (
               <div key={t} onClick={(e) => { e.stopPropagation(); setTab(i); }}
-                style={{ padding: "11px 22px", fontFamily: F.d, fontSize: 12, cursor: "pointer", color: tab === i ? C.red : "#aaa", borderBottom: tab === i ? `3px solid ${C.red}` : "3px solid transparent", marginBottom: -2, userSelect: "none" }}>
-                {t}{i === 1 && <span style={{ fontFamily: F.m, fontSize: 9, color: "#ccc", marginLeft: 6 }}>{cc}/{tc}</span>}
+                style={{ padding: "11px 22px", fontFamily: F.d, fontSize: 16, cursor: "pointer", color: tab === i ? C.red : "#aaa", borderBottom: tab === i ? `3px solid ${C.red}` : "3px solid transparent", marginBottom: -2, userSelect: "none" }}>
+                {t}{i === 1 && <span style={{ fontFamily: F.m, fontSize: 13, color: "#ccc", marginLeft: 6 }}>{cc}/{tc}</span>}
               </div>
             ))}
           </div>
-          {tab === 0 && <div style={{ padding: "20px 24px", fontSize: 14, color: "#3a352e", lineHeight: 1.65 }}>{card.identify}</div>}
+          {tab === 0 && <div style={{ padding: "20px 24px", fontSize: 18, color: "#3a352e", lineHeight: 1.65 }}>{card.identify}</div>}
           {tab === 1 && (
             <div style={{ padding: "16px 20px" }}>
               {card.discuss.map((d, di) => (
@@ -227,9 +227,9 @@ function IDSCard({ card, onU, ix }) {
               <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
                 <input value={np} onChange={(e) => setNp(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") add(); }}
                   onClick={(e) => e.stopPropagation()} placeholder="Add discussion point..."
-                  style={{ flex: 1, padding: "11px 14px", border: `1px dashed ${C.borderP}`, background: "white", fontFamily: F.b, fontSize: 13, color: C.ink, borderRadius: 4 }} />
+                  style={{ flex: 1, padding: "11px 14px", border: `1px dashed ${C.borderP}`, background: "white", fontFamily: F.b, fontSize: 17, color: C.ink, borderRadius: 4 }} />
                 <button onClick={(e) => { e.stopPropagation(); add(); }}
-                  style={{ padding: "11px 18px", background: C.red, color: "white", border: "none", fontFamily: F.m, fontSize: 10, letterSpacing: 1, cursor: "pointer", borderRadius: 4, display: "flex", alignItems: "center", gap: 4 }}>
+                  style={{ padding: "11px 18px", background: C.red, color: "white", border: "none", fontFamily: F.m, fontSize: 14, letterSpacing: 1, cursor: "pointer", borderRadius: 4, display: "flex", alignItems: "center", gap: 4 }}>
                   <Plus size={12} />Add
                 </button>
               </div>
@@ -237,9 +237,9 @@ function IDSCard({ card, onU, ix }) {
           )}
           {tab === 2 && (
             <div style={{ padding: "20px 24px" }}>
-              <div style={{ fontSize: 12, color: "#aaa", fontStyle: "italic", marginBottom: 10 }}>Solution notes added after the call</div>
+              <div style={{ fontSize: 16, color: "#aaa", fontStyle: "italic", marginBottom: 10 }}>Solution notes added after the call</div>
               <textarea value={card.solve} onChange={(e) => onU({ ...card, solve: e.target.value })} onClick={(e) => e.stopPropagation()}
-                placeholder="Type solution notes..." style={{ width: "100%", minHeight: 100, padding: "14px 16px", border: `1px dashed ${C.borderP}`, background: "white", fontFamily: F.b, fontSize: 13.5, color: C.ink, resize: "vertical", borderRadius: 4, lineHeight: 1.6 }} />
+                placeholder="Type solution notes..." style={{ width: "100%", minHeight: 100, padding: "14px 16px", border: `1px dashed ${C.borderP}`, background: "white", fontFamily: F.b, fontSize: 17, color: C.ink, resize: "vertical", borderRadius: 4, lineHeight: 1.6 }} />
             </div>
           )}
         </>
@@ -256,12 +256,12 @@ function OfferTabs() {
 
   return (
     <div style={{ padding: "40px 48px", borderBottom: `1px solid ${C.borderP}` }}>
-      <div style={{ fontFamily: F.m, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: C.red, marginBottom: 6 }}>04 - The Offer</div>
-      <h2 style={{ fontFamily: F.d, fontSize: 24, marginBottom: 16, color: C.ink }}>3 Ways to Frame This</h2>
+      <div style={{ fontFamily: F.m, fontSize: 14, letterSpacing: 3, textTransform: "uppercase", color: C.red, marginBottom: 6 }}>04 - The Offer</div>
+      <h2 style={{ fontFamily: F.d, fontSize: 32, marginBottom: 16, color: C.ink }}>3 Ways to Frame This</h2>
       <div style={{ display: "flex", borderBottom: `2px solid ${C.ink}` }}>
         {tabs.map((t, i) => (
           <div key={t} onClick={() => setA(i)} style={{
-            padding: "12px 20px", fontFamily: F.m, fontSize: 11, letterSpacing: 1, cursor: "pointer",
+            padding: "12px 20px", fontFamily: F.m, fontSize: 14, letterSpacing: 1, cursor: "pointer",
             background: a === i ? C.ink : C.paperDk, color: a === i ? C.gold : C.muted,
             border: a === i ? `2px solid ${C.ink}` : `2px solid ${C.borderP}`, borderBottom: "none", marginRight: -1,
             fontWeight: a === i ? 700 : 400, textTransform: "uppercase", userSelect: "none",
@@ -271,20 +271,20 @@ function OfferTabs() {
       </div>
       <div style={{ background: "linear-gradient(135deg,#1a1a1a,#0a0a0a)", color: "white", border: "2px solid #333", borderTop: "none" }}>
         <div style={{ padding: "28px 36px 16px" }}>
-          <div style={{ fontFamily: F.d, fontSize: 22, marginBottom: 4 }}>{o.name}</div>
-          <div style={{ fontSize: 13, color: "#888", fontStyle: "italic" }}>{o.angle}</div>
+          <div style={{ fontFamily: F.d, fontSize: 28, marginBottom: 4 }}>{o.name}</div>
+          <div style={{ fontSize: 17, color: "#888", fontStyle: "italic" }}>{o.angle}</div>
         </div>
         {o.items.map((it, i) => (
           <div key={i} style={{ padding: "12px 36px", borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", gap: 14, alignItems: "baseline" }}>
-            <span style={{ fontFamily: F.m, fontSize: 11, color: C.gold, flexShrink: 0 }}>{it.n}</span>
-            <div style={{ fontSize: 13, color: "#ccc", lineHeight: 1.5 }}>
+            <span style={{ fontFamily: F.m, fontSize: 14, color: C.gold, flexShrink: 0 }}>{it.n}</span>
+            <div style={{ fontSize: 17, color: "#ccc", lineHeight: 1.5 }}>
               <strong style={{ color: "white" }}>{it.t}</strong>
-              {it.tag && <span style={{ display: "inline-block", background: it.g ? C.green : C.red, color: "white", fontFamily: F.m, fontSize: 8, letterSpacing: 1, padding: "2px 7px", marginLeft: 6, verticalAlign: "middle", textTransform: "uppercase" }}>{it.tag}</span>}
+              {it.tag && <span style={{ display: "inline-block", background: it.g ? C.green : C.red, color: "white", fontFamily: F.m, fontSize: 11, letterSpacing: 1, padding: "2px 7px", marginLeft: 6, verticalAlign: "middle", textTransform: "uppercase" }}>{it.tag}</span>}
             </div>
           </div>
         ))}
         <div style={{ padding: "14px 36px", background: "rgba(255,255,255,0.03)", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-          <p style={{ color: "#555", fontSize: 11, fontFamily: F.m, margin: 0 }}>{o.foot}</p>
+          <p style={{ color: "#555", fontSize: 14, fontFamily: F.m, margin: 0 }}>{o.foot}</p>
         </div>
       </div>
     </div>
@@ -292,7 +292,7 @@ function OfferTabs() {
 }
 
 /* ── STATIC HTML SECTIONS ── */
-const STATIC_01_03 = `<div style="background:#0a0a0a;color:#f5f0e8;padding:56px 48px 44px;position:relative"><div style="position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#c4342d,#d4a843,#c4342d)"></div><div style="font-family:${F.m};font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#d4a843;margin-bottom:14px">Internal Strategy - All Volleyball</div><h1 style="font-family:${F.d};font-size:48px;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;color:white">The <span style="color:#c4342d">"Welcome Back"</span><br>Revival Push</h1><p style="font-size:16px;color:#a09888;max-width:580px;line-height:1.55;margin:0">Early lock-in offer for past team/club customers. $103K excess inventory. 2026-2027 vendor decisions.</p><div style="margin-top:28px;display:flex;gap:28px;font-family:${F.m};font-size:11px;color:#666;letter-spacing:1px;flex-wrap:wrap"><span>April 2026</span><span>Teams &amp; Clubs</span><span>Email</span><span style="font-style:italic;color:#555">Potentially Ads</span></div></div><div style="padding:40px 48px;border-bottom:1px solid #c8bfb0"><div style="font-family:${F.m};font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c4342d;margin-bottom:6px">01 - The Plan</div><h2 style="font-family:${F.d};font-size:24px;margin-bottom:16px;color:#0a0a0a">What We're Proposing</h2><p style="font-size:15px;color:#3a352e;margin-bottom:14px;max-width:700px">$103K excess, 65% team essentials. Bundle as free add-ons. Early commit deal for 2026-2027.</p><div style="display:grid;grid-template-columns:repeat(4,1fr);border:2px solid #0a0a0a;margin:24px 0"><div style="padding:20px 16px;text-align:center;border-right:2px solid #0a0a0a"><div style="font-family:${F.d};font-size:32px;color:#c4342d;line-height:1;margin-bottom:4px">$103K</div><div style="font-family:${F.m};font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6b6358">Excess</div></div><div style="padding:20px 16px;text-align:center;border-right:2px solid #0a0a0a"><div style="font-family:${F.d};font-size:32px;color:#c4342d;line-height:1;margin-bottom:4px">5,857</div><div style="font-family:${F.m};font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6b6358">Units</div></div><div style="padding:20px 16px;text-align:center;border-right:2px solid #0a0a0a"><div style="font-family:${F.d};font-size:32px;color:#c4342d;line-height:1;margin-bottom:4px">65</div><div style="font-family:${F.m};font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6b6358">SKUs</div></div><div style="padding:20px 16px;text-align:center"><div style="font-family:${F.d};font-size:32px;color:#c4342d;line-height:1;margin-bottom:4px">65%</div><div style="font-family:${F.m};font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6b6358">Team</div></div></div><div style="background:#0a0a0a;color:#f5f0e8;padding:28px 32px;margin:24px 0;position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:#c4342d"></div><div style="font-family:${F.d};font-size:17px;margin-bottom:14px;color:#d4a843">Two Big Ideas</div><div style="display:flex;gap:16px;margin-bottom:14px"><div style="font-family:${F.d};font-size:28px;color:#c4342d;line-height:1;width:32px;flex-shrink:0">1</div><div style="color:#c8bfb0;font-size:14px;line-height:1.65">Bundle excess as free player add-ons. $16.87/backpack, $45-65 perceived.</div></div><div style="display:flex;gap:16px"><div style="font-family:${F.d};font-size:28px;color:#c4342d;line-height:1;width:32px;flex-shrink:0">2</div><div style="color:#c8bfb0;font-size:14px;line-height:1.65">Early commitment, July 31 deadline. Free gear + discounts + priority production.</div></div></div><p style="font-size:15px;color:#3a352e;margin-bottom:14px"><strong>Best case:</strong> Influx of orders, inventory cleared, cash flow.</p><p style="font-size:15px;color:#3a352e;margin-bottom:0"><strong>Worst case:</strong> Low traction. Re-engaged customers, moved inventory, zero risk.</p></div><div style="padding:40px 48px;border-bottom:1px solid #c8bfb0"><div style="font-family:${F.m};font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c4342d;margin-bottom:6px">02 - Inventory</div><h2 style="font-family:${F.d};font-size:24px;margin-bottom:16px;color:#0a0a0a">What We're Sitting On</h2><table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr><th style="background:#0a0a0a;color:#f5f0e8;padding:10px 14px;text-align:left;font-family:${F.m};font-size:9px;letter-spacing:1.5px;text-transform:uppercase">Item</th><th style="background:#0a0a0a;color:#f5f0e8;padding:10px 14px;text-align:left;font-family:${F.m};font-size:9px;letter-spacing:1.5px">Units</th><th style="background:#0a0a0a;color:#f5f0e8;padding:10px 14px;text-align:left;font-family:${F.m};font-size:9px;letter-spacing:1.5px">Cost</th><th style="background:#0a0a0a;color:#f5f0e8;padding:10px 14px;text-align:left;font-family:${F.m};font-size:9px;letter-spacing:1.5px">Play</th></tr></thead><tbody><tr><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0"><strong>Backpacks</strong></td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:12px">1,128</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:12px;color:#c4342d">$21.8K</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0">Free w/ packages. $16.87/bag.</td></tr><tr><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0"><strong>Shorts</strong></td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:12px">2,623</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:12px;color:#c4342d">$32.0K</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0">Free practice shorts.</td></tr><tr><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0"><strong>Kneepads</strong></td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:12px">888</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:12px;color:#c4342d">$9.0K</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0">Free w/ packages.</td></tr><tr><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0"><strong>Shoes</strong></td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:12px">427</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:12px;color:#c4342d">$22.4K</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0">30-40% team discount.</td></tr><tr><td style="padding:10px 14px"><strong>Other</strong></td><td style="padding:10px 14px;font-family:${F.m};font-weight:700;font-size:12px">791</td><td style="padding:10px 14px;font-family:${F.m};font-weight:700;font-size:12px;color:#c4342d">$8.3K</td><td style="padding:10px 14px">Socks, sleeves, balls.</td></tr></tbody></table><div style="background:#2d6b4f;color:white;padding:24px 28px;margin:20px 0"><div style="font-family:${F.d};font-size:16px;margin-bottom:8px;color:#a8e6c8">The Math</div><p style="color:rgba(255,255,255,0.88);font-size:14px;line-height:1.6;margin:0">~$30-35/player bonus cost. $80-100+ perceived. 50 teams = ~$18K moved, $150-250K+ revenue.</p></div></div><div style="padding:40px 48px;border-bottom:1px solid #c8bfb0"><div style="font-family:${F.m};font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#c4342d;margin-bottom:6px">03 - The Buyer</div><h2 style="font-family:${F.d};font-size:24px;margin-bottom:16px;color:#0a0a0a">Who We're Targeting</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0"><div style="background:#e8e0d2;padding:18px 20px"><div style="font-family:${F.d};font-size:13px;margin-bottom:6px;color:#1a3a5c">#1 Fear</div><div style="font-size:13px;color:#6b6358">Ordering late. No uniforms at first tournament.</div></div><div style="background:#e8e0d2;padding:18px 20px"><div style="font-family:${F.d};font-size:13px;margin-bottom:6px;color:#1a3a5c">#1 Desire</div><div style="font-size:13px;color:#6b6358">One vendor, one invoice. Everything handled.</div></div><div style="background:#e8e0d2;padding:18px 20px"><div style="font-family:${F.d};font-size:13px;margin-bottom:6px;color:#1a3a5c">Budget</div><div style="font-size:13px;color:#6b6358">Gear = 15-25% of $2.2-10.5K/season.</div></div><div style="background:#e8e0d2;padding:18px 20px"><div style="font-family:${F.d};font-size:13px;margin-bottom:6px;color:#1a3a5c">Timeline</div><div style="font-size:13px;color:#6b6358">Lock May-July. Scramble Aug-Oct.</div></div></div><p style="font-size:15px;color:#3a352e;margin-bottom:14px"><strong>Director:</strong> Budget, reliability, organized to board.</p><p style="font-size:15px;color:#3a352e;margin-bottom:0"><strong>Coach:</strong> Quality, identity. "Use these guys again."</p></div>`;
+const STATIC_01_03 = `<div style="background:#0a0a0a;color:#f5f0e8;padding:56px 48px 44px;position:relative"><div style="position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#c4342d,#d4a843,#c4342d)"></div><div style="font-family:${F.m};font-size:14px;letter-spacing:3px;text-transform:uppercase;color:#d4a843;margin-bottom:14px">Internal Strategy - All Volleyball</div><h1 style="font-family:${F.d};font-size:60px;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;color:white">The <span style="color:#c4342d">"Welcome Back"</span><br>Revival Push</h1><p style="font-size:20px;color:#a09888;max-width:580px;line-height:1.55;margin:0">Early lock-in offer for past team/club customers. $103K excess inventory. 2026-2027 vendor decisions.</p><div style="margin-top:28px;display:flex;gap:28px;font-family:${F.m};font-size:14px;color:#666;letter-spacing:1px;flex-wrap:wrap"><span>April 2026</span><span>Teams &amp; Clubs</span><span>Email</span><span style="font-style:italic;color:#555">Potentially Ads</span></div></div><div style="padding:40px 48px;border-bottom:1px solid #c8bfb0"><div style="font-family:${F.m};font-size:14px;letter-spacing:3px;text-transform:uppercase;color:#c4342d;margin-bottom:6px">01 - The Plan</div><h2 style="font-family:${F.d};font-size:32px;margin-bottom:16px;color:#0a0a0a">What We're Proposing</h2><p style="font-size:20px;color:#3a352e;margin-bottom:14px;max-width:700px">$103K excess, 65% team essentials. Bundle as free add-ons. Early commit deal for 2026-2027.</p><div style="display:grid;grid-template-columns:repeat(4,1fr);border:2px solid #0a0a0a;margin:24px 0"><div style="padding:20px 16px;text-align:center;border-right:2px solid #0a0a0a"><div style="font-family:${F.d};font-size:42px;color:#c4342d;line-height:1;margin-bottom:4px">$103K</div><div style="font-family:${F.m};font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#6b6358">Excess</div></div><div style="padding:20px 16px;text-align:center;border-right:2px solid #0a0a0a"><div style="font-family:${F.d};font-size:42px;color:#c4342d;line-height:1;margin-bottom:4px">5,857</div><div style="font-family:${F.m};font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#6b6358">Units</div></div><div style="padding:20px 16px;text-align:center;border-right:2px solid #0a0a0a"><div style="font-family:${F.d};font-size:42px;color:#c4342d;line-height:1;margin-bottom:4px">65</div><div style="font-family:${F.m};font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#6b6358">SKUs</div></div><div style="padding:20px 16px;text-align:center"><div style="font-family:${F.d};font-size:42px;color:#c4342d;line-height:1;margin-bottom:4px">65%</div><div style="font-family:${F.m};font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#6b6358">Team</div></div></div><div style="background:#0a0a0a;color:#f5f0e8;padding:28px 32px;margin:24px 0;position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:#c4342d"></div><div style="font-family:${F.d};font-size:22px;margin-bottom:14px;color:#d4a843">Two Big Ideas</div><div style="display:flex;gap:16px;margin-bottom:14px"><div style="font-family:${F.d};font-size:36px;color:#c4342d;line-height:1;width:36px;flex-shrink:0">1</div><div style="color:#c8bfb0;font-size:18px;line-height:1.65">Bundle excess as free player add-ons. $16.87/backpack, $45-65 perceived.</div></div><div style="display:flex;gap:16px"><div style="font-family:${F.d};font-size:36px;color:#c4342d;line-height:1;width:36px;flex-shrink:0">2</div><div style="color:#c8bfb0;font-size:18px;line-height:1.65">Early commitment, July 31 deadline. Free gear + discounts + priority production.</div></div></div><p style="font-size:20px;color:#3a352e;margin-bottom:14px"><strong>Best case:</strong> Influx of orders, inventory cleared, cash flow.</p><p style="font-size:20px;color:#3a352e;margin-bottom:0"><strong>Worst case:</strong> Low traction. Re-engaged customers, moved inventory, zero risk.</p></div><div style="padding:40px 48px;border-bottom:1px solid #c8bfb0"><div style="font-family:${F.m};font-size:14px;letter-spacing:3px;text-transform:uppercase;color:#c4342d;margin-bottom:6px">02 - Inventory</div><h2 style="font-family:${F.d};font-size:32px;margin-bottom:16px;color:#0a0a0a">What We're Sitting On</h2><table style="width:100%;border-collapse:collapse;font-size:17px"><thead><tr><th style="background:#0a0a0a;color:#f5f0e8;padding:10px 14px;text-align:left;font-family:${F.m};font-size:13px;letter-spacing:1.5px;text-transform:uppercase">Item</th><th style="background:#0a0a0a;color:#f5f0e8;padding:10px 14px;text-align:left;font-family:${F.m};font-size:13px;letter-spacing:1.5px">Units</th><th style="background:#0a0a0a;color:#f5f0e8;padding:10px 14px;text-align:left;font-family:${F.m};font-size:13px;letter-spacing:1.5px">Cost</th><th style="background:#0a0a0a;color:#f5f0e8;padding:10px 14px;text-align:left;font-family:${F.m};font-size:13px;letter-spacing:1.5px">Play</th></tr></thead><tbody><tr><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0"><strong>Backpacks</strong></td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:16px">1,128</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:16px;color:#c4342d">$21.8K</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0">Free w/ packages. $16.87/bag.</td></tr><tr><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0"><strong>Shorts</strong></td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:16px">2,623</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:16px;color:#c4342d">$32.0K</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0">Free practice shorts.</td></tr><tr><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0"><strong>Kneepads</strong></td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:16px">888</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:16px;color:#c4342d">$9.0K</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0">Free w/ packages.</td></tr><tr><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0"><strong>Shoes</strong></td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:16px">427</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0;font-family:${F.m};font-weight:700;font-size:16px;color:#c4342d">$22.4K</td><td style="padding:10px 14px;border-bottom:1px solid #c8bfb0">30-40% team discount.</td></tr><tr><td style="padding:10px 14px"><strong>Other</strong></td><td style="padding:10px 14px;font-family:${F.m};font-weight:700;font-size:16px">791</td><td style="padding:10px 14px;font-family:${F.m};font-weight:700;font-size:16px;color:#c4342d">$8.3K</td><td style="padding:10px 14px">Socks, sleeves, balls.</td></tr></tbody></table><div style="background:#2d6b4f;color:white;padding:24px 28px;margin:20px 0"><div style="font-family:${F.d};font-size:20px;margin-bottom:8px;color:#a8e6c8">The Math</div><p style="color:rgba(255,255,255,0.88);font-size:18px;line-height:1.6;margin:0">~$30-35/player bonus cost. $80-100+ perceived. 50 teams = ~$18K moved, $150-250K+ revenue.</p></div></div><div style="padding:40px 48px;border-bottom:1px solid #c8bfb0"><div style="font-family:${F.m};font-size:14px;letter-spacing:3px;text-transform:uppercase;color:#c4342d;margin-bottom:6px">03 - The Buyer</div><h2 style="font-family:${F.d};font-size:32px;margin-bottom:16px;color:#0a0a0a">Who We're Targeting</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0"><div style="background:#e8e0d2;padding:18px 20px"><div style="font-family:${F.d};font-size:17px;margin-bottom:6px;color:#1a3a5c">#1 Fear</div><div style="font-size:17px;color:#6b6358">Ordering late. No uniforms at first tournament.</div></div><div style="background:#e8e0d2;padding:18px 20px"><div style="font-family:${F.d};font-size:17px;margin-bottom:6px;color:#1a3a5c">#1 Desire</div><div style="font-size:17px;color:#6b6358">One vendor, one invoice. Everything handled.</div></div><div style="background:#e8e0d2;padding:18px 20px"><div style="font-family:${F.d};font-size:17px;margin-bottom:6px;color:#1a3a5c">Budget</div><div style="font-size:17px;color:#6b6358">Gear = 15-25% of $2.2-10.5K/season.</div></div><div style="background:#e8e0d2;padding:18px 20px"><div style="font-family:${F.d};font-size:17px;margin-bottom:6px;color:#1a3a5c">Timeline</div><div style="font-size:17px;color:#6b6358">Lock May-July. Scramble Aug-Oct.</div></div></div><p style="font-size:20px;color:#3a352e;margin-bottom:14px"><strong>Director:</strong> Budget, reliability, organized to board.</p><p style="font-size:20px;color:#3a352e;margin-bottom:0"><strong>Coach:</strong> Quality, identity. "Use these guys again."</p></div>`;
 
 /* ── TIERS DATA ── */
 const TIERS = [
@@ -327,11 +327,11 @@ function DocView({ onBack }) {
   return (
     <div style={{ background: C.paper, minHeight: "100vh" }}>
       <div style={{ padding: "12px 48px", background: "white", borderBottom: `1px solid ${C.borderP}`, display: "flex", alignItems: "center", gap: 12, position: "sticky", top: 0, zIndex: 20 }}>
-        <div onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", color: C.muted, fontSize: 13, padding: "6px 12px", borderRadius: 6 }}>
-          <ChevronLeft size={16} />Back
+        <div onClick={onBack} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", color: C.muted, fontSize: 17, padding: "6px 12px", borderRadius: 6 }}>
+          <ChevronLeft size={18} />Back
         </div>
         <div style={{ flex: 1 }} />
-        <div style={{ fontFamily: F.m, fontSize: 10, color: saving ? "#aaa" : C.green, letterSpacing: 1 }}>{saving ? "SAVING..." : last ? `SAVED ${last}` : ""}</div>
+        <div style={{ fontFamily: F.m, fontSize: 13, color: saving ? "#aaa" : C.green, letterSpacing: 1 }}>{saving ? "SAVING..." : last ? `SAVED ${last}` : ""}</div>
       </div>
 
       <div dangerouslySetInnerHTML={{ __html: STATIC_01_03 }} />
@@ -339,16 +339,16 @@ function DocView({ onBack }) {
 
       {/* 05 TIERS */}
       <div style={{ padding: "40px 48px", borderBottom: `1px solid ${C.borderP}` }}>
-        <div style={{ fontFamily: F.m, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: C.red, marginBottom: 6 }}>05 - Tiers</div>
-        <h2 style={{ fontFamily: F.d, fontSize: 24, marginBottom: 16, color: C.ink }}>Scaled by Club Size</h2>
+        <div style={{ fontFamily: F.m, fontSize: 14, letterSpacing: 3, textTransform: "uppercase", color: C.red, marginBottom: 6 }}>05 - Tiers</div>
+        <h2 style={{ fontFamily: F.d, fontSize: 32, marginBottom: 16, color: C.ink }}>Scaled by Club Size</h2>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14, margin: "24px 0" }}>
           {TIERS.map((t, i) => (
             <div key={i} style={{ border: `2px solid ${t.f ? C.red : C.borderP}`, padding: 20, position: "relative", background: t.f ? "#fdf7f5" : "white", borderRadius: 4 }}>
-              {t.f && <div style={{ position: "absolute", top: -10, left: 14, background: C.red, color: "white", fontFamily: F.m, fontSize: 9, letterSpacing: 2, padding: "2px 10px" }}>MOST CLUBS</div>}
-              <div style={{ fontFamily: F.d, fontSize: 15, marginBottom: 3 }}>{t.n}</div>
-              <div style={{ fontFamily: F.m, fontSize: 11, color: C.muted, marginBottom: 14 }}>{t.r}</div>
+              {t.f && <div style={{ position: "absolute", top: -10, left: 14, background: C.red, color: "white", fontFamily: F.m, fontSize: 12, letterSpacing: 2, padding: "2px 10px" }}>MOST CLUBS</div>}
+              <div style={{ fontFamily: F.d, fontSize: 20, marginBottom: 3 }}>{t.n}</div>
+              <div style={{ fontFamily: F.m, fontSize: 14, color: C.muted, marginBottom: 14 }}>{t.r}</div>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {t.it.map((x, j) => <li key={j} style={{ padding: "5px 0", borderBottom: j < t.it.length - 1 ? `1px solid ${C.borderP}` : "none", fontSize: 13, color: "#3a352e" }}>{t.b && t.b.includes(j) ? <strong style={{ color: C.red }}>{x}</strong> : x}</li>)}
+                {t.it.map((x, j) => <li key={j} style={{ padding: "5px 0", borderBottom: j < t.it.length - 1 ? `1px solid ${C.borderP}` : "none", fontSize: 17, color: "#3a352e" }}>{t.b && t.b.includes(j) ? <strong style={{ color: C.red }}>{x}</strong> : x}</li>)}
               </ul>
             </div>
           ))}
@@ -356,8 +356,8 @@ function DocView({ onBack }) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", border: `2px solid ${C.ink}`, margin: "24px 0" }}>
           {[["~$180", "Per player"], ["~$2,400", "Per team"], ["$9-14K", "6-team club"]].map(([n, l], i) => (
             <div key={i} style={{ padding: "20px 16px", textAlign: "center", borderRight: i < 2 ? `2px solid ${C.ink}` : "none" }}>
-              <div style={{ fontFamily: F.d, fontSize: 32, color: C.red, lineHeight: 1, marginBottom: 4 }}>{n}</div>
-              <div style={{ fontFamily: F.m, fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: C.muted }}>{l}</div>
+              <div style={{ fontFamily: F.d, fontSize: 42, color: C.red, lineHeight: 1, marginBottom: 4 }}>{n}</div>
+              <div style={{ fontFamily: F.m, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: C.muted }}>{l}</div>
             </div>
           ))}
         </div>
@@ -365,21 +365,21 @@ function DocView({ onBack }) {
 
       {/* 06 IDS */}
       <div style={{ padding: "40px 48px", borderBottom: `1px solid ${C.borderP}` }}>
-        <div style={{ fontFamily: F.m, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: C.red, marginBottom: 6 }}>06 - IDS</div>
+        <div style={{ fontFamily: F.m, fontSize: 14, letterSpacing: 3, textTransform: "uppercase", color: C.red, marginBottom: 6 }}>06 - IDS</div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
-          <h2 style={{ fontFamily: F.d, fontSize: 24, color: C.ink, margin: 0 }}>Identify, Discuss, Solve</h2>
+          <h2 style={{ fontFamily: F.d, fontSize: 32, color: C.ink, margin: 0 }}>Identify, Discuss, Solve</h2>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 100, height: 6, background: C.paperDk, borderRadius: 3, overflow: "hidden" }}>
               <div style={{ width: `${tt > 0 ? (tc / tt) * 100 : 0}%`, height: "100%", background: C.green, transition: "width 0.3s" }} />
             </div>
-            <span style={{ fontFamily: F.m, fontSize: 10, color: "#aaa" }}>{tc}/{tt} pts</span>
+            <span style={{ fontFamily: F.m, fontSize: 14, color: "#aaa" }}>{tc}/{tt} pts</span>
           </div>
         </div>
         {cards.map((c, i) => <IDSCard key={c.id} card={c} ix={i} onU={(u) => upd(i, u)} />)}
-        <div style={{ marginTop: 12, fontSize: 14, color: "#3a352e" }}><strong>Team:</strong> Jerico (pages), Alvin (design), Ryan (email).</div>
+        <div style={{ marginTop: 12, fontSize: 18, color: "#3a352e" }}><strong>Team:</strong> Jerico (pages), Alvin (design), Ryan (email).</div>
       </div>
 
-      <div style={{ background: C.ink, color: "#555", padding: "28px 48px", fontFamily: F.m, fontSize: 10, letterSpacing: 1 }}>All Volleyball, Inc. / Internal / April 2026</div>
+      <div style={{ background: C.ink, color: "#555", padding: "28px 48px", fontFamily: F.m, fontSize: 14, letterSpacing: 1 }}>All Volleyball, Inc. / Internal / April 2026</div>
     </div>
   );
 }
@@ -448,14 +448,14 @@ export default function App() {
         <div style={{ width: 400, padding: "56px 48px", background: "rgba(18,18,18,0.85)", backdropFilter: "blur(40px)", WebkitBackdropFilter: "blur(40px)", borderRadius: 22, border: "1px solid rgba(255,255,255,0.06)", position: "relative", zIndex: 1, opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(24px)", transition: "all 0.9s cubic-bezier(0.16,1,0.3,1)" }}>
           <div style={{ textAlign: "center", marginBottom: 40 }}>
             <Logo s={68} />
-            <div style={{ fontFamily: F.d, fontSize: 12, color: "#555", letterSpacing: 5, textTransform: "uppercase", marginTop: 18 }}>Marketing Operations</div>
+            <div style={{ fontFamily: F.d, fontSize: 16, color: "#555", letterSpacing: 5, textTransform: "uppercase", marginTop: 18 }}>Marketing Operations</div>
           </div>
           <div style={{ marginBottom: 24 }}>
             <input type="password" value={pw} onChange={(e) => { setPw(e.target.value); setPwErr(false); }} onKeyDown={(e) => e.key === "Enter" && login()} placeholder="Password"
-              style={{ width: "100%", padding: "16px 20px", background: "rgba(255,255,255,0.03)", border: `1px solid ${pwErr ? "rgba(196,52,45,0.6)" : "rgba(255,255,255,0.08)"}`, borderRadius: 12, color: "white", fontFamily: F.b, fontSize: 15, letterSpacing: 1 }} />
-            {pwErr && <div style={{ color: C.red, fontSize: 12, marginTop: 8, fontFamily: F.m }}>Incorrect password</div>}
+              style={{ width: "100%", padding: "16px 20px", background: "rgba(255,255,255,0.03)", border: `1px solid ${pwErr ? "rgba(196,52,45,0.6)" : "rgba(255,255,255,0.08)"}`, borderRadius: 12, color: "white", fontFamily: F.b, fontSize: 18, letterSpacing: 1 }} />
+            {pwErr && <div style={{ color: C.red, fontSize: 15, marginTop: 8, fontFamily: F.m }}>Incorrect password</div>}
           </div>
-          <button onClick={login} disabled={pwLoading || !pw} style={{ width: "100%", padding: "16px 0", background: pwLoading || !pw ? "rgba(196,52,45,0.4)" : C.red, color: "white", border: "none", borderRadius: 12, fontFamily: F.d, fontSize: 14, cursor: pwLoading || !pw ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+          <button onClick={login} disabled={pwLoading || !pw} style={{ width: "100%", padding: "16px 0", background: pwLoading || !pw ? "rgba(196,52,45,0.4)" : C.red, color: "white", border: "none", borderRadius: 12, fontFamily: F.d, fontSize: 18, cursor: pwLoading || !pw ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             {pwLoading && <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />}{pwLoading ? "Signing in" : "Sign In"}
           </button>
         </div>
@@ -472,13 +472,13 @@ export default function App() {
         <style>{styles}</style>
         <div style={{ position: "absolute", width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle,rgba(196,52,45,0.05) 0%,transparent 70%)", filter: "blur(100px)", top: "-10%", right: "-5%" }} />
         <div style={{ padding: "20px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "relative", zIndex: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}><Logo s={34} /><div><div style={{ fontFamily: F.d, fontSize: 13, letterSpacing: 1 }}>All Volleyball</div><div style={{ fontFamily: F.m, fontSize: 8, color: "#444", letterSpacing: 2, textTransform: "uppercase" }}>Marketing Ops</div></div></div>
-          <div onClick={logout} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", padding: "8px 16px", borderRadius: 8, color: "#666" }}><LogOut size={14} /><span style={{ fontSize: 12, fontFamily: F.m, letterSpacing: 1 }}>Sign out</span></div>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}><Logo s={34} /><div><div style={{ fontFamily: F.d, fontSize: 17, letterSpacing: 1 }}>All Volleyball</div><div style={{ fontFamily: F.m, fontSize: 11, color: "#444", letterSpacing: 2, textTransform: "uppercase" }}>Marketing Ops</div></div></div>
+          <div onClick={logout} style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", padding: "8px 16px", borderRadius: 8, color: "#666" }}><LogOut size={16} /><span style={{ fontSize: 15, fontFamily: F.m, letterSpacing: 1 }}>Sign out</span></div>
         </div>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", zIndex: 10, padding: "0 40px 60px" }}>
           <div style={{ textAlign: "center", marginBottom: 52, opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(10px)", transition: "all 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s" }}>
-            <div style={{ fontFamily: F.d, fontSize: 30, marginBottom: 8 }}>Good {greet}</div>
-            <div style={{ fontSize: 15, color: "#666" }}>What are we working on today?</div>
+            <div style={{ fontFamily: F.d, fontSize: 42, marginBottom: 8 }}>Good {greet}</div>
+            <div style={{ fontSize: 20, color: "#666" }}>What are we working on today?</div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, maxWidth: 570 }}>
             {TILE_DATA.map((t, i) => {
@@ -503,14 +503,14 @@ export default function App() {
                     <Icon size={24} color={active ? "white" : "#333"} strokeWidth={1.5} />
                   </div>
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: active ? "white" : "#555", marginBottom: 2 }}>{t.label}</div>
-                    <div style={{ fontFamily: F.m, fontSize: 9, color: active ? "#666" : "#333", letterSpacing: 0.5 }}>{t.desc}</div>
+                    <div style={{ fontSize: 17, fontWeight: 600, color: active ? "white" : "#555", marginBottom: 2 }}>{t.label}</div>
+                    <div style={{ fontFamily: F.m, fontSize: 12, color: active ? "#666" : "#333", letterSpacing: 0.5 }}>{t.desc}</div>
                   </div>
                 </div>
               );
             })}
           </div>
-          <div style={{ marginTop: 52, fontFamily: F.m, fontSize: 9, color: "#222", letterSpacing: 3, textTransform: "uppercase", opacity: mounted ? 1 : 0, transition: "opacity 0.6s ease 1.2s" }}>Built by the AVB Marketing Team · v1.0</div>
+          <div style={{ marginTop: 52, fontFamily: F.m, fontSize: 12, color: "#222", letterSpacing: 3, textTransform: "uppercase", opacity: mounted ? 1 : 0, transition: "opacity 0.6s ease 1.2s" }}>Built by the AVB Marketing Team · v1.0</div>
         </div>
       </div>
     );
@@ -523,39 +523,39 @@ export default function App() {
         <style>{styles}</style>
         <div style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle,rgba(196,52,45,0.04) 0%,transparent 70%)", filter: "blur(80px)", top: "15%", right: "-5%" }} />
         <div style={{ padding: "20px 40px", display: "flex", alignItems: "center", gap: 16, borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-          <div onClick={() => setView("home")} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", color: "#555", fontSize: 13, padding: "6px 14px", borderRadius: 8 }}><ChevronLeft size={16} />Home</div>
+          <div onClick={() => setView("home")} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", color: "#555", fontSize: 17, padding: "6px 14px", borderRadius: 8 }}><ChevronLeft size={18} />Home</div>
           <div style={{ width: 1, height: 18, background: "rgba(255,255,255,0.06)" }} />
-          <span style={{ fontFamily: F.m, fontSize: 11, color: "#444", letterSpacing: 1 }}>Planning</span>
+          <span style={{ fontFamily: F.m, fontSize: 14, color: "#444", letterSpacing: 1 }}>Planning</span>
         </div>
         <div style={{ maxWidth: 720, margin: "0 auto", padding: "56px 40px", animation: "slideR 0.45s cubic-bezier(0.16,1,0.3,1)" }}>
-          <div style={{ fontFamily: F.d, fontSize: 34, marginBottom: 8 }}>Planning</div>
-          <div style={{ fontSize: 15, color: "#666", marginBottom: 36 }}>Strategy documents, offer plans, and campaign pushes.</div>
+          <div style={{ fontFamily: F.d, fontSize: 44, marginBottom: 8 }}>Planning</div>
+          <div style={{ fontSize: 20, color: "#666", marginBottom: 36 }}>Strategy documents, offer plans, and campaign pushes.</div>
           <div style={{ height: 1, background: "rgba(255,255,255,0.05)", marginBottom: 36 }} />
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 40 }}>
             <div style={{ padding: "28px 24px", borderRadius: 14, background: "rgba(255,255,255,0.012)", border: "1px solid rgba(255,255,255,0.025)", opacity: 0.4 }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}><Plus size={20} color="#333" /><span style={{ fontFamily: F.m, fontSize: 8, letterSpacing: 2, color: "#333", textTransform: "uppercase", background: "rgba(255,255,255,0.04)", padding: "3px 10px", borderRadius: 6 }}>Coming soon</span></div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: "#555", marginBottom: 4 }}>Create New</div>
-              <div style={{ fontSize: 12, color: "#333" }}>Start a new strategy document</div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}><Plus size={20} color="#333" /><span style={{ fontFamily: F.m, fontSize: 11, letterSpacing: 2, color: "#333", textTransform: "uppercase", background: "rgba(255,255,255,0.04)", padding: "3px 10px", borderRadius: 6 }}>Coming soon</span></div>
+              <div style={{ fontSize: 19, fontWeight: 600, color: "#555", marginBottom: 4 }}>Create New</div>
+              <div style={{ fontSize: 15, color: "#333" }}>Start a new strategy document</div>
             </div>
             <div onClick={() => setShowList(true)} onMouseEnter={() => setHov("m")} onMouseLeave={() => setHov(null)}
               style={{ padding: "28px 24px", borderRadius: 14, cursor: "pointer", background: hov === "m" ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.025)", border: `1px solid ${hov === "m" ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)"}`, transition: "all 0.3s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}><Map size={20} color={C.red} /><span style={{ fontFamily: F.m, fontSize: 9, color: C.green, background: "rgba(45,107,79,0.15)", padding: "3px 12px", borderRadius: 8, letterSpacing: 1 }}>1 active</span></div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: "white", marginBottom: 4 }}>Manage</div>
-              <div style={{ fontSize: 12, color: "#666" }}>View and edit existing plans</div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}><Map size={20} color={C.red} /><span style={{ fontFamily: F.m, fontSize: 12, color: C.green, background: "rgba(45,107,79,0.15)", padding: "3px 12px", borderRadius: 8, letterSpacing: 1 }}>1 active</span></div>
+              <div style={{ fontSize: 19, fontWeight: 600, color: "white", marginBottom: 4 }}>Manage</div>
+              <div style={{ fontSize: 15, color: "#666" }}>View and edit existing plans</div>
             </div>
           </div>
           {showList && (
             <div style={{ animation: "fadeUp 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
-              <div style={{ fontFamily: F.m, fontSize: 10, letterSpacing: 3, color: "#333", textTransform: "uppercase", marginBottom: 16 }}>Active Plans</div>
+              <div style={{ fontFamily: F.m, fontSize: 13, letterSpacing: 3, color: "#333", textTransform: "uppercase", marginBottom: 16 }}>Active Plans</div>
               <div onClick={() => setView("doc")} onMouseEnter={() => setHov("d")} onMouseLeave={() => setHov(null)}
                 style={{ padding: "28px 32px", borderRadius: 14, cursor: "pointer", background: hov === "d" ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.02)", border: `1px solid ${hov === "d" ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.04)"}`, boxShadow: hov === "d" ? "0 12px 40px rgba(0,0,0,0.3)" : "none", transform: hov === "d" ? "translateY(-3px)" : "translateY(0)", transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)", display: "flex", alignItems: "center", gap: 24 }}>
                 <div style={{ width: 58, height: 58, borderRadius: 16, background: `linear-gradient(135deg,${C.red},${C.gold})`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 6px 20px rgba(196,52,45,0.25)" }}><Map size={26} color="white" strokeWidth={1.5} /></div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>The April 2026 Revival Push</div>
-                  <div style={{ fontSize: 13, color: "#666" }}>Teams & Clubs reactivation · Excess inventory · Early lock-in</div>
+                  <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>The April 2026 Revival Push</div>
+                  <div style={{ fontSize: 17, color: "#666" }}>Teams & Clubs reactivation · Excess inventory · Early lock-in</div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
-                  <span style={{ fontFamily: F.m, fontSize: 9, letterSpacing: 1, color: C.green, background: "rgba(45,107,79,0.15)", padding: "4px 14px", borderRadius: 10, textTransform: "uppercase" }}>Active</span>
+                  <span style={{ fontFamily: F.m, fontSize: 12, letterSpacing: 1, color: C.green, background: "rgba(45,107,79,0.15)", padding: "4px 14px", borderRadius: 10, textTransform: "uppercase" }}>Active</span>
                   <ChevronRight size={18} color="#444" />
                 </div>
               </div>
