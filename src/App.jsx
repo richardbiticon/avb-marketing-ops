@@ -316,6 +316,13 @@ function DocView({ onBack }) {
     st.current = setTimeout(async () => { setSaving(true); await sS(SK.ids, { c: nc }); setLast(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })); setSaving(false); }, 800);
   }, []);
 
+  async function manualSave() {
+    setSaving(true);
+    await sS(SK.ids, { c: cards });
+    setLast(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+    setSaving(false);
+  }
+
   function upd(i, u) { const nc = cards.map((c, j) => j === i ? u : c); setCards(nc); save(nc); }
 
   if (!loaded) return <div style={{ padding: 80, textAlign: "center" }}><Loader2 size={20} color="#aaa" className="spin" /></div>;
@@ -331,7 +338,15 @@ function DocView({ onBack }) {
           <ChevronLeft size={16} />Back
         </div>
         <div style={{ flex: 1 }} />
-        <div style={{ fontFamily: F.m, fontSize: 10, color: saving ? "#aaa" : C.green, letterSpacing: 1 }}>{saving ? "SAVING..." : last ? `SAVED ${last}` : ""}</div>
+        <div style={{ fontFamily: F.m, fontSize: 10, color: saving ? "#aaa" : last ? C.green : "#ccc", letterSpacing: 1, marginRight: 12 }}>{saving ? "SAVING..." : last ? `SAVED ${last}` : "Not saved yet"}</div>
+        <button onClick={manualSave} disabled={saving} style={{
+          padding: "8px 20px", background: saving ? "#999" : C.green, color: "white", border: "none",
+          borderRadius: 8, fontFamily: F.m, fontSize: 11, letterSpacing: 1, cursor: saving ? "default" : "pointer",
+          display: "flex", alignItems: "center", gap: 6, transition: "all 0.2s", fontWeight: 700
+        }}>
+          {saving ? <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} /> : <Check size={13} />}
+          {saving ? "Saving" : "Save"}
+        </button>
       </div>
 
       <div dangerouslySetInnerHTML={{ __html: STATIC_01_03 }} />
