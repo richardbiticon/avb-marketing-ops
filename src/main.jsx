@@ -2,83 +2,94 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 
-const JSONBIN_KEY = "$2a$10$UgAhioLzyPrmD3Iph58mcucWwyd7c9OhyhwTOc8Ysy3VdFMSioP.C";
-const JSONBIN_BIN = "69d94a25aaba882197e5fdca";
+const API_KEY = "$2a$10$UgAhioLzyPrmD3Iph58mcucWwyd7c9OhyhwTOc8Ysy3VdFMSioP.C";
+const BIN_ID = "69d94a25aaba882197e5fdca";
+const API_URL = "https://api.jsonbin.io/v3/b/" + BIN_ID;
 
-let cache = {};
-let loaded = false;
-let writeTimer = null;
+let cloudData = {};
+let cloudLoaded = false;
+let saveTimer = null;
+let saving = false;
 
-async function cloudLoad() {
+async function loadFromCloud() {
+  if (cloudLoaded) return;
   try {
-    const res = await fetch("https://api.jsonbin.io/v3/b/" + JSONBIN_BIN + "/latest", {
-      headers: { "X-Access-Key": JSONBIN_KEY }
+    console.log("[AVB] Loading from cloud...");
+    const res = await fetch(API_URL + "/latest", {
+      headers: { "X-Access-Key": API_KEY }
     });
     if (!res.ok) throw new Error("HTTP " + res.status);
     const json = await res.json();
-    cache = json.record || {};
-    loaded = true;
-    console.log("[AVB] Cloud data loaded successfully");
+    cloudData = json.record || {};
+    cloudLoaded = true;
+    console.log("[AVB] Cloud loaded OK. Keys:", Object.keys(cloudData));
   } catch (e) {
-    console.warn("[AVB] Cloud load failed, using local fallback:", e.message);
-    loaded = true;
+    console.error("[AVB] Cloud load FAILED:", e.message);
+    try {
+      const backup = localStorage.getItem("avb-cloud-backup");
+      if (backup) {
+        cloudData = JSON.parse(backup);
+        console.log("[AVB] Loaded from localStorage backup");
+      }
+    } catch (e2) {}
+    cloudLoaded = true;
   }
 }
 
-function cloudSave() {
-  if (writeTimer) clearTimeout(writeTimer);
-  writeTimer = setTimeout(async () => {
-    try {
-      const res = await fetch("https://api.jsonbin.io/v3/b/" + JSONBIN_BIN, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Access-Key": JSONBIN_KEY
-        },
-        body: JSON.stringify(cache)
-      });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      console.log("[AVB] Cloud save successful");
-    } catch (e) {
-      console.warn("[AVB] Cloud save failed:", e.message);
-    }
-  }, 1500);
+async function saveToCloud() {
+  if (saving) return;
+  saving = true;
+  try {
+    console.log("[AVB] Saving to cloud...", Object.keys(cloudData));
+    const res = await fetch(API_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Access-Key": API_KEY
+      },
+      body: JSON.stringify(cloudData)
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    console.log("[AVB] Cloud save OK");
+    try { localStorage.setItem("avb-cloud-backup", JSON.stringify(cloudData)); } catch (e) {}
+  } catch (e) {
+    console.error("[AVB] Cloud save FAILED:", e.message);
+  }
+  saving = false;
 }
 
-if (!window.storage) {
-  window.storage = {
-    async get(key) {
-      if (!loaded) await cloudLoad();
-      const val = cache[key];
-      if (val != null) return { key: key, value: val, shared: true };
-      // Fallback to localStorage
-      try {
-        const local = localStorage.getItem("avb-" + key);
-        return local ? { key: key, value: local, shared: false } : null;
-      } catch (e) { return null; }
-    },
-    async set(key, value) {
-      if (!loaded) await cloudLoad();
-      cache[key] = value;
-      // Save to both cloud and local
-      try { localStorage.setItem("avb-" + key, value); } catch (e) {}
-      cloudSave();
-      return { key: key, value: value, shared: true };
-    },
-    async delete(key) {
-      delete cache[key];
-      try { localStorage.removeItem("avb-" + key); } catch (e) {}
-      cloudSave();
-      return { key: key, deleted: true };
-    },
-    async list() {
-      return { keys: Object.keys(cache) };
-    }
-  };
+function debouncedSave() {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToCloud, 1200);
 }
+
+window.storage = {
+  get: async function(key, _shared) {
+    if (!cloudLoaded) await loadFromCloud();
+    const val = cloudData[key];
+    if (val !== undefined && val !== null) {
+      return { key: key, value: val, shared: true };
+    }
+    return null;
+  },
+  set: async function(key, value, _shared) {
+    if (!cloudLoaded) await loadFromCloud();
+    cloudData[key] = value;
+    debouncedSave();
+    return { key: key, value: value, shared: true };
+  },
+  delete: async function(key, _shared) {
+    delete cloudData[key];
+    debouncedSave();
+    return { key: key, deleted: true, shared: true };
+  },
+  list: async function(_prefix, _shared) {
+    return { keys: Object.keys(cloudData), shared: true };
+  }
+};
 
 async function start() {
-  await cloudLoad();
+  await loadFromCloud();
   ReactDOM.createRoot(document.getElementById('root')).render(
     React.createElement(React.StrictMode, null, React.createElement(App))
   );
