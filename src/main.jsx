@@ -2,20 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 
-/*
-  Cloud-synced storage using JSONBin.io (free tier)
-  
-  SETUP (one time, 2 minutes):
-  1. Go to jsonbin.io and create a free account
-  2. Go to API Keys, copy your X-Access-Key
-  3. Create a new bin with: {"data":{}}
-  4. Copy the Bin ID
-  5. Paste both values below
-  
-  All devices then share the same saved data.
-  Skip this and it falls back to localStorage (single device).
-*/
-const JSONBIN_KEY = "UgAhioLzyPrmD3Iph58mcucWwyd7c9OhyhwTOc8Ysy3VdFMSioP";
+const JSONBIN_KEY = "$2a$10$UgAhioLzyPrmD3Iph58mcucWwyd7c9OhyhwTOc8Ysy3VdFMSioP.C";
 const JSONBIN_BIN = "69d94a25aaba882197e5fdca";
 
 let cache = {};
@@ -23,73 +10,78 @@ let loaded = false;
 let writeTimer = null;
 
 async function cloudLoad() {
-  if (!JSONBIN_KEY || !JSONBIN_BIN) return;
   try {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN}/latest`, {
+    const res = await fetch("https://api.jsonbin.io/v3/b/" + JSONBIN_BIN + "/latest", {
       headers: { "X-Access-Key": JSONBIN_KEY }
     });
+    if (!res.ok) throw new Error("HTTP " + res.status);
     const json = await res.json();
     cache = json.record || {};
     loaded = true;
+    console.log("[AVB] Cloud data loaded successfully");
   } catch (e) {
-    console.warn("Cloud load failed:", e);
+    console.warn("[AVB] Cloud load failed, using local fallback:", e.message);
     loaded = true;
   }
 }
 
 function cloudSave() {
-  if (!JSONBIN_KEY || !JSONBIN_BIN) return;
   if (writeTimer) clearTimeout(writeTimer);
   writeTimer = setTimeout(async () => {
     try {
-      await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN}`, {
+      const res = await fetch("https://api.jsonbin.io/v3/b/" + JSONBIN_BIN, {
         method: "PUT",
-        headers: { "Content-Type": "application/json", "X-Access-Key": JSONBIN_KEY },
+        headers: {
+          "Content-Type": "application/json",
+          "X-Access-Key": JSONBIN_KEY
+        },
         body: JSON.stringify(cache)
       });
-    } catch (e) { console.warn("Cloud save failed:", e); }
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      console.log("[AVB] Cloud save successful");
+    } catch (e) {
+      console.warn("[AVB] Cloud save failed:", e.message);
+    }
   }, 1500);
 }
-
-const useCloud = JSONBIN_KEY && JSONBIN_BIN;
 
 if (!window.storage) {
   window.storage = {
     async get(key) {
-      if (useCloud) {
-        if (!loaded) await cloudLoad();
-        const val = cache[key];
-        return val != null ? { key, value: val, shared: true } : null;
-      }
+      if (!loaded) await cloudLoad();
+      const val = cache[key];
+      if (val != null) return { key: key, value: val, shared: true };
+      // Fallback to localStorage
       try {
-        const v = localStorage.getItem("avb-" + key);
-        return v ? { key, value: v, shared: false } : null;
-      } catch { return null; }
+        const local = localStorage.getItem("avb-" + key);
+        return local ? { key: key, value: local, shared: false } : null;
+      } catch (e) { return null; }
     },
     async set(key, value) {
-      if (useCloud) {
-        if (!loaded) await cloudLoad();
-        cache[key] = value;
-        cloudSave();
-        return { key, value, shared: true };
-      }
-      try {
-        localStorage.setItem("avb-" + key, value);
-        return { key, value, shared: false };
-      } catch { return null; }
+      if (!loaded) await cloudLoad();
+      cache[key] = value;
+      // Save to both cloud and local
+      try { localStorage.setItem("avb-" + key, value); } catch (e) {}
+      cloudSave();
+      return { key: key, value: value, shared: true };
     },
     async delete(key) {
-      if (useCloud) { delete cache[key]; cloudSave(); return { key, deleted: true }; }
-      try { localStorage.removeItem("avb-" + key); return { key, deleted: true }; } catch { return null; }
+      delete cache[key];
+      try { localStorage.removeItem("avb-" + key); } catch (e) {}
+      cloudSave();
+      return { key: key, deleted: true };
     },
-    async list() { return { keys: [] }; }
+    async list() {
+      return { keys: Object.keys(cache) };
+    }
   };
 }
 
 async function start() {
-  if (useCloud) await cloudLoad();
+  await cloudLoad();
   ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode><App /></React.StrictMode>
+    React.createElement(React.StrictMode, null, React.createElement(App))
   );
 }
+
 start();
