@@ -15,8 +15,8 @@ import App from './App.jsx'
   All devices then share the same saved data.
   Skip this and it falls back to localStorage (single device).
 */
-const JSONBIN_KEY = "";
-const JSONBIN_BIN = "";
+const JSONBIN_KEY = "UgAhioLzyPrmD3Iph58mcucWwyd7c9OhyhwTOc8Ysy3VdFMSioP";
+const JSONBIN_BIN = "69d94a25aaba882197e5fdca";
 
 let cache = {};
 let loaded = false;
